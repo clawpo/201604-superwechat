@@ -14,7 +14,11 @@ dependencies {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
+
+    defaultConfig{
+        applicationId "cn.ucai.superwechat"
+    }
 
     sourceSets {
         main {
