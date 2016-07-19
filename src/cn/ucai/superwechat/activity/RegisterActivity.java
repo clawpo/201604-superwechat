@@ -14,17 +14,23 @@
 package cn.ucai.superwechat.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
-import cn.ucai.superwechat.DemoApplication;
-import cn.ucai.superwechat.R;
 import com.easemob.exceptions.EaseMobException;
+
+import cn.ucai.superwechat.DemoApplication;
+import cn.ucai.superwechat.I;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.listener.OnSetAvatarListener;
 
 /**
  * 注册页
@@ -32,32 +38,90 @@ import com.easemob.exceptions.EaseMobException;
  */
 public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
+	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private RelativeLayout layoutAvatar;
+    private ImageView imAvatar;
+
+    private OnSetAvatarListener mOnSetAvatarListener;
+    String avatarName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		userNameEditText = (EditText) findViewById(R.id.username);
-		passwordEditText = (EditText) findViewById(R.id.password);
-		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+        initView();
+        setListener();
 	}
 
-	/**
+    private void setListener() {
+        findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                register();
+            }
+        });
+        findViewById(R.id.layout_register_avatar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnSetAvatarListener = new OnSetAvatarListener(RegisterActivity.this,
+                        R.id.layout_register,getAvatarName(), I.AVATAR_TYPE_USER_PATH);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode!=RESULT_OK){
+            return;
+        }
+        mOnSetAvatarListener.setAvatar(requestCode,data,imAvatar);
+    }
+
+    private String getAvatarName() {
+        avatarName = String.valueOf(System.currentTimeMillis());
+        return avatarName;
+    }
+
+    private void initView() {
+        userNameEditText = (EditText) findViewById(R.id.username);
+        userNickEditText = (EditText) findViewById(R.id.nick);
+        passwordEditText = (EditText) findViewById(R.id.password);
+        confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+        layoutAvatar = (RelativeLayout) findViewById(R.id.layout_register_avatar);
+        imAvatar = (ImageView) findViewById(R.id.iv_avatar);
+    }
+
+    /**
 	 * 注册
-	 * 
-	 * @param view
+	 *
 	 */
-	public void register(View view) {
+	private void register() {
 		final String username = userNameEditText.getText().toString().trim();
+        final String nick = userNickEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 		if (TextUtils.isEmpty(username)) {
 			Toast.makeText(this, getResources().getString(R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
-		} else if (TextUtils.isEmpty(pwd)) {
+		} else if (!username.matches("[\\w][\\w\\d_]+")) {
+            Toast.makeText(this, getResources().getString(R.string.illegal_user_name), Toast.LENGTH_SHORT).show();
+            userNameEditText.requestFocus();
+            return;
+        }  else if (TextUtils.isEmpty(nick)) {
+            Toast.makeText(this, getResources().getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
+            userNickEditText.requestFocus();
+            return;
+        } else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
@@ -86,7 +150,7 @@ public class RegisterActivity extends BaseActivity {
 									pd.dismiss();
 								// 保存用户名
 								DemoApplication.getInstance().setUserName(username);
-								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), 0).show();
+								Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
 								finish();
 							}
 						});
