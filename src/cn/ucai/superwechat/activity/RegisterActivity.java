@@ -36,6 +36,7 @@ import cn.ucai.superwechat.SuperWeChatApplication;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.listener.OnSetAvatarListener;
+import cn.ucai.superwechat.utils.Utils;
 
 /**
  * 注册页
@@ -176,7 +177,10 @@ public class RegisterActivity extends BaseActivity {
                         }else{
                             Log.e(TAG,"register fail..."+result.getRetCode());
                             pd.dismiss();
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.Registration_failed +
+                                            Utils.getResourceString(RegisterActivity.this,result.getRetCode()),
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
 
