@@ -147,7 +147,7 @@ public class OkHttpUtils2<T> {
         }
 
         Request.Builder builder = new Request.Builder().url(mUrl.toString());
-//        Log.e("okhttp","murl="+mUrl);
+        Log.e("okhttp","murl="+mUrl);
         Request request;
         if (mFileBody != null) {//上传文件
             request = builder.post(mFileBody).build();
@@ -258,12 +258,12 @@ public class OkHttpUtils2<T> {
 
     public OkHttpUtils2<T> setRequestUrl(String request) {
         mUrl = new StringBuilder(I.SERVER_ROOT);
-        mUrl.append(I.QUESTION).append(request);
+        mUrl.append(I.QUESTION).append(I.KEY_REQUEST).append(I.EQUAL).append(request);
 //        Log.e("okhttp","1 murl="+ mUrl.toString());
         return this;
     }
 
-    public OkHttpUtils2<T> addFile(File file) {
+    public OkHttpUtils2<T> addFile2(File file) {
         if (mUrl == null) {
             return this;
         }
@@ -273,6 +273,13 @@ public class OkHttpUtils2<T> {
                 .type(MultipartBuilder.FORM)
                 .addPart(Headers.of("Content-Disposition","form-data; name=\"file\";filename=\""+file.getName()+"\""), fileBody)
                 .build();
+        return this;
+    }
+    public OkHttpUtils2<T> addFile(File file) {
+        if (mUrl == null) {
+            return this;
+        }
+        mFileBody = RequestBody.create(null, file);
         return this;
     }
 
