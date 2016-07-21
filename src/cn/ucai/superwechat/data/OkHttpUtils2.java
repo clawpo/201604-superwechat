@@ -113,7 +113,7 @@ public class OkHttpUtils2<T> {
                         }
                         break;
                     case RESULT_ERROR://
-                        if(mListener!=null) {
+                        if(mListener!=null && msg.obj!=null) {
                             Log.e("main","obj="+msg);
                             mListener.onError(msg.obj.toString());//回调解析失败的代码
                         }
