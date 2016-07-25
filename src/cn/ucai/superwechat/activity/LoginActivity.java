@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -29,7 +30,11 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +53,7 @@ import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.task.DownloadContactListTask;
 import cn.ucai.superwechat.utils.CommonUtils;
+import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
 
 /**
@@ -196,6 +202,7 @@ public class LoginActivity extends BaseActivity {
                             if(user!=null) {
                                 saveUserToDB(user);
                                 loginSuccess(user);
+								downloadUserAvatarFromAppServer();
                             }
                         }else{
                             pd.dismiss();
@@ -211,6 +218,38 @@ public class LoginActivity extends BaseActivity {
                         pd.dismiss();
                         DemoHXSDKHelper.getInstance().logout(true,null);
                         Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void downloadUserAvatarFromAppServer() {
+        final OkHttpUtils2<Message> utils = new OkHttpUtils2<Message>();
+        utils.setRequestUrl(UserUtils.getUserAvatarPath(
+                SuperWeChatApplication.getInstance().getUserName()
+        )).targetClass(Message.class)
+                .doInBackground(new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        Log.e(TAG,"download avatar fail,msg="+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        byte[] data = response.body().bytes();
+                        String avatarUrl = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
+                        Log.e(TAG,"avatarUrl="+avatarUrl);
+                        ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo().setAvatar(avatarUrl);
+                    }
+                })
+                .execute(new OkHttpUtils2.OnCompleteListener<Message>() {
+                    @Override
+                    public void onSuccess(Message result) {
+                        Log.e(TAG,"result="+result);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e(TAG,"error="+error);
                     }
                 });
     }
@@ -249,8 +288,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         // 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-        boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
-                SuperWeChatApplication.currentUserNick.trim());
+        boolean updatenick = false;//EMChatManager.getInstance().updateCurrentUserNick(SuperWeChatApplication.currentUserNick.trim());
         if (!updatenick) {
             Log.e("LoginActivity", "update current user nick fail");
         }

@@ -90,7 +90,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null || username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(), headAvatar);
+			UserUtils.setCurrentUserAvatar(this, headAvatar);
 		} else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
@@ -281,11 +281,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
         if(requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO) {
             Log.e(TAG,"upload avatar to app server...");
-            uploadUserAvatar();
+            uploadUserAvatar(data);
         }
 	}
 
-    private void uploadUserAvatar() {
+    private void uploadUserAvatar(final Intent data) {
         File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH),
                 avatarName+I.AVATAR_SUFFIX_JPG);
         String username = SuperWeChatApplication.getInstance().getUserName();
@@ -300,8 +300,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                     public void onSuccess(Result result) {
                         Log.e(TAG,"result="+result);
                         if(result.isRetMsg()){
-                            Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
-                                    Toast.LENGTH_SHORT).show();
+                            setPicToView(data);
+//                            Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+//                                    Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -344,12 +345,14 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void uploadUserAvatar(final byte[] data) {
+        Log.e(TAG,"uploadUserAvatar...");
 		dialog = ProgressDialog.show(this, getString(R.string.dl_update_photo), getString(R.string.dl_waiting));
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				final String avatarUrl = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
+                Log.e(TAG,"uploadUserAvatar...avatarUrl="+avatarUrl);
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

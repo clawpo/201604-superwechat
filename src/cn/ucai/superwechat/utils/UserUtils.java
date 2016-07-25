@@ -78,7 +78,7 @@ public class UserUtils {
 		}
 	}
 
-    private static String getUserAvatarPath(String username){
+    public static String getUserAvatarPath(String username){
         StringBuilder path = new StringBuilder(I.SERVER_ROOT);
         path.append(I.QUESTION).append(I.KEY_REQUEST)
                 .append(I.EQUAL).append(I.REQUEST_DOWNLOAD_AVATAR)
@@ -95,6 +95,7 @@ public class UserUtils {
 	public static void setCurrentUserAvatar(Context context, ImageView imageView) {
 		User user = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().getCurrentUserInfo();
 		if (user != null && user.getAvatar() != null) {
+            Log.e(TAG,"setCurrentUserAvatar,url="+user.getAvatar());
 			Picasso.with(context).load(user.getAvatar()).placeholder(R.drawable.default_avatar).into(imageView);
 		} else {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
