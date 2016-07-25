@@ -224,7 +224,7 @@ public class LoginActivity extends BaseActivity {
 
     private void downloadUserAvatarFromAppServer() {
         final OkHttpUtils2<Message> utils = new OkHttpUtils2<Message>();
-        utils.setRequestUrl(UserUtils.getUserAvatarPath(
+        utils.url(UserUtils.getUserAvatarPath(
                 SuperWeChatApplication.getInstance().getUserName()
         )).targetClass(Message.class)
                 .doInBackground(new Callback() {
