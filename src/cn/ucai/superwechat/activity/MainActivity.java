@@ -594,7 +594,9 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                         .execute(new OkHttpUtils2.OnCompleteListener<Result>() {
                             @Override
                             public void onSuccess(Result result) {
+                                Log.e(TAG,"result="+result);
                                 if(result.isRetMsg()) {
+                                    Log.e(TAG,"result,remove user...");
                                     ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().remove(username);
                                     UserAvatar u = SuperWeChatApplication.getInstance().getUserMap().get(username);
                                     SuperWeChatApplication.getInstance().getUserList().remove(u);
@@ -612,6 +614,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
                             }
                         });
 			}
+            Log.e(TAG,"onContactDeleted,usernameList=  2222");
 			runOnUiThread(new Runnable() {
 				public void run() {
 					// 如果正在与此用户的聊天页面
