@@ -207,13 +207,11 @@ public class NewGroupActivity extends BaseActivity {
     }
 
     private void addGroupMembers(String hxid, String[] members) {
-        Log.e(TAG,"members="+members);
-        Log.e(TAG,"members="+members.toString());
         String memberArr = "";
         for (String m:members){
             memberArr+=m+",";
         }
-        memberArr = memberArr.substring(0,memberArr.length()-1);
+        memberArr = memberArr.substring(0,memberArr.length()-2);
         Log.e(TAG,"memberArr="+memberArr);
         final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
         utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
