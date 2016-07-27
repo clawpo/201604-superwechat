@@ -211,7 +211,7 @@ public class NewGroupActivity extends BaseActivity {
         for (String m:members){
             memberArr+=m+",";
         }
-        memberArr = memberArr.substring(0,memberArr.length()-2);
+        memberArr = memberArr.substring(0,memberArr.length()-1);
         Log.e(TAG,"memberArr="+memberArr);
         final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
         utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
