@@ -13,18 +13,6 @@
  */
 package cn.ucai.superwechat.adapter;
 
-import java.io.File;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -53,7 +41,6 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMError;
-import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -67,6 +54,25 @@ import com.easemob.chat.NormalFileMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
+import com.easemob.exceptions.EaseMobException;
+import com.easemob.util.DensityUtil;
+import com.easemob.util.EMLog;
+import com.easemob.util.FileUtils;
+import com.easemob.util.LatLng;
+import com.easemob.util.TextFormater;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.File;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
@@ -78,6 +84,7 @@ import cn.ucai.superwechat.activity.ShowBigImage;
 import cn.ucai.superwechat.activity.ShowNormalFileActivity;
 import cn.ucai.superwechat.activity.ShowVideoActivity;
 import cn.ucai.superwechat.activity.UserProfileActivity;
+import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.task.LoadImageTask;
 import cn.ucai.superwechat.task.LoadVideoImageTask;
 import cn.ucai.superwechat.utils.DateUtils;
@@ -85,12 +92,6 @@ import cn.ucai.superwechat.utils.ImageCache;
 import cn.ucai.superwechat.utils.ImageUtils;
 import cn.ucai.superwechat.utils.SmileUtils;
 import cn.ucai.superwechat.utils.UserUtils;
-import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.DensityUtil;
-import com.easemob.util.EMLog;
-import com.easemob.util.FileUtils;
-import com.easemob.util.LatLng;
-import com.easemob.util.TextFormater;
 
 public class MessageAdapter extends BaseAdapter{
 
@@ -417,7 +418,8 @@ public class MessageAdapter extends BaseAdapter{
 		// 群聊时，显示接收的消息的发送人的名称
 		if ((chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE){
 		    //demo里使用username代码nick
-			UserUtils.setUserNick(message.getFrom(), holder.tv_usernick);
+//			UserUtils.setUserNick(message.getFrom(), holder.tv_usernick);
+			UserUtils.setAppMemberNick(username,message.getFrom(),holder.tv_usernick);
 		}
 		if(message.direct == EMMessage.Direct.SEND){
 			UserUtils.setCurrentUserNick(holder.tv_usernick);
@@ -582,6 +584,7 @@ public class MessageAdapter extends BaseAdapter{
 				Intent intent = new Intent();
 				intent.setClass(context, UserProfileActivity.class);
 				intent.putExtra("username", message.getFrom());
+                intent.putExtra("groupId",username);
 				context.startActivity(intent);
 			}
 		});
