@@ -44,7 +44,7 @@ import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
@@ -93,8 +93,8 @@ public class LoginActivity extends BaseActivity {
 
 		setListener();
 
-		if (SuperWeChatApplication.getInstance().getUserName() != null) {
-			usernameEditText.setText(SuperWeChatApplication.getInstance().getUserName());
+		if (FuliCenterApplication.getInstance().getUserName() != null) {
+			usernameEditText.setText(FuliCenterApplication.getInstance().getUserName());
 		}
 	}
 
@@ -226,7 +226,7 @@ public class LoginActivity extends BaseActivity {
     private void downloadUserAvatarFromAppServer() {
         final OkHttpUtils2<Message> utils = new OkHttpUtils2<Message>();
         utils.url(UserUtils.getUserAvatarPath(
-                SuperWeChatApplication.getInstance().getUserName()
+                FuliCenterApplication.getInstance().getUserName()
         )).targetClass(Message.class)
                 .doInBackground(new Callback() {
                     @Override
@@ -263,10 +263,10 @@ public class LoginActivity extends BaseActivity {
 
     private void loginSuccess(UserAvatar user){
         // 登陆成功，保存用户名密码
-        SuperWeChatApplication.getInstance().setUserName(currentUsername);
-        SuperWeChatApplication.getInstance().setPassword(currentPassword);
-        SuperWeChatApplication.getInstance().setUser(user);
-        SuperWeChatApplication.currentUserNick = user.getMUserNick();
+        FuliCenterApplication.getInstance().setUserName(currentUsername);
+        FuliCenterApplication.getInstance().setPassword(currentPassword);
+        FuliCenterApplication.getInstance().setUser(user);
+        FuliCenterApplication.currentUserNick = user.getMUserNick();
 
         new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
         new DownloadGroupListTask(LoginActivity.this,currentUsername).execute();
