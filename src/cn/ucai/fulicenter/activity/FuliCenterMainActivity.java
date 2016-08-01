@@ -21,6 +21,8 @@ public class FuliCenterMainActivity extends BaseActivity {
     TextView tvCartHint;
     RadioButton[] mrbTabs;
 
+    NewGoodFragment mNewGoodFragment;
+
     int index;
     int currentIndex;
 
@@ -29,6 +31,13 @@ public class FuliCenterMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulicetner_main);
         initView();
+        mNewGoodFragment = new NewGoodFragment();
+        // 添加显示第一个fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, mNewGoodFragment)
+                .show(mNewGoodFragment)
+                .commit();
     }
 
     private void initView() {
