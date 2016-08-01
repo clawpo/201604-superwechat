@@ -14,10 +14,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -94,8 +91,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
-import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
+import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.ExpressionAdapter;
 import cn.ucai.fulicenter.adapter.ExpressionPagerAdapter;
 import cn.ucai.fulicenter.adapter.MessageAdapter;
@@ -103,7 +100,6 @@ import cn.ucai.fulicenter.adapter.VoicePlayClickListener;
 import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import cn.ucai.fulicenter.applib.model.GroupRemoveListener;
 import cn.ucai.fulicenter.domain.RobotUser;
-import cn.ucai.fulicenter.task.DownloadMemberMapTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.SmileUtils;
@@ -427,7 +423,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	            forwardMessage(forward_msg_id);
 	        }
 		}
-        setUpdateMemberListener();
 	}
 
 	protected void onConversationInit(){
@@ -523,7 +518,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }else{
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         }
-        new DownloadMemberMapTask(getApplicationContext(),toChatUsername).execute();
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
@@ -678,7 +672,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					sendLocationMsg(latitude, longitude, "", locationAddress);
 				} else {
 					String st = getResources().getString(R.string.unable_to_get_loaction);
-					Toast.makeText(this, st, 0).show();
+					Toast.makeText(this, st, Toast.LENGTH_SHORT).show();
 				}
 				// 重发消息
 			} else if (requestCode == REQUEST_CODE_TEXT || requestCode == REQUEST_CODE_VOICE
@@ -747,7 +741,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			selectFileFromLocal();
 		} else if (id == R.id.btn_voice_call) { // 点击语音电话图标
 			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, 0).show();
+				Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
 			else{
 				startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username",
 						toChatUsername).putExtra("isComingCall", false));
@@ -756,7 +750,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 			}
 		} else if (id == R.id.btn_video_call) { // 视频通话
 			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, 0).show();
+				Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
 			else{
 				startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername).putExtra(
 						"isComingCall", false));
@@ -859,7 +853,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public void selectPicFromCamera() {
 		if (!CommonUtils.isExitsSdcard()) {
 			String st = getResources().getString(R.string.sd_card_does_not_exist);
-			Toast.makeText(getApplicationContext(), st, 0).show();
+			Toast.makeText(getApplicationContext(), st, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -907,8 +901,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	 * 
 	 * @param content
 	 *            message content
-	 * @param isResend
-	 *            boolean resend
 	 */
 	public void sendText(String content) {
 
@@ -1133,12 +1125,12 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		File file = new File(filePath);
 		if (file == null || !file.exists()) {
 			String st7 = getResources().getString(R.string.File_does_not_exist);
-			Toast.makeText(getApplicationContext(), st7, 0).show();
+			Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		if (file.length() > 10 * 1024 * 1024) {
 			String st6 = getResources().getString(R.string.The_file_is_not_greater_than_10_m);
-			Toast.makeText(getApplicationContext(), st6, 0).show();
+			Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -1241,24 +1233,24 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				.putExtra("cancel", true), REQUEST_CODE_EMPTY_HISTORY);
 	}
 
-	/**
-	 * 点击进入群组详情
-	 * 
-	 * @param view
-	 */
-	public void toGroupDetails(View view) {
-		if (room == null && group == null) {
-			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, 0).show();
-			return;
-		}
-		if(chatType == CHATTYPE_GROUP){
-			startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
-		}else{
-			startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
-		}
-	}
+//	/**
+//	 * 点击进入群组详情
+//	 *
+//	 * @param view
+//	 */
+//	public void toGroupDetails(View view) {
+//		if (room == null && group == null) {
+//			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
+//			return;
+//		}
+//		if(chatType == CHATTYPE_GROUP){
+////			startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
+////					REQUEST_CODE_GROUP_DETAIL);
+//		}else{
+//			startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
+//					REQUEST_CODE_GROUP_DETAIL);
+//		}
+//	}
 
 	/**
 	 * 显示或隐藏图标按钮页
@@ -1477,9 +1469,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
 		}
-        if(mReceiver!=null){
-            unregisterReceiver(mReceiver);
-        }
 	}
 
 	@Override
@@ -1564,7 +1553,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_success, 0).show();
+							Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_success, Toast.LENGTH_SHORT).show();
 						}
 					});
 				} catch (EaseMobException e) {
@@ -1572,7 +1561,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 					runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_failure, 0).show();
+							Toast.makeText(getApplicationContext(), R.string.Move_into_blacklist_failure, Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -1728,9 +1717,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
-						Toast.makeText(ChatActivity.this, st13, 1).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+						Toast.makeText(ChatActivity.this, st13, Toast.LENGTH_LONG).show();
+//						if (GroupDetailsActivity.instance != null)
+//							GroupDetailsActivity.instance.finish();
 						finish();
 					}
 				}
@@ -1745,9 +1734,9 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
-						Toast.makeText(ChatActivity.this, st14, 1).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+						Toast.makeText(ChatActivity.this, st14, Toast.LENGTH_LONG).show();
+//						if (GroupDetailsActivity.instance != null)
+//							GroupDetailsActivity.instance.finish();
 						finish();
 					}
 				}
@@ -1764,17 +1753,4 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		return listView;
 	}
 
-	class UpdateMemberListener extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-    UpdateMemberListener mReceiver;
-    private void setUpdateMemberListener(){
-        mReceiver = new UpdateMemberListener();
-        IntentFilter filter = new IntentFilter("update_member_list");
-        registerReceiver(mReceiver,filter);
-    }
 }
