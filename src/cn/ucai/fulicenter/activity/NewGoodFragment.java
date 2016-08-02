@@ -50,7 +50,7 @@ public class NewGoodFragment extends Fragment {
 
     private void initData() {
         try {
-            findBoutiqueList(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
+            findNewGoodList(new OkHttpUtils2.OnCompleteListener<NewGoodBean[]>() {
                 @Override
                 public void onSuccess(NewGoodBean[] result) {
                     Log.e(TAG,"result="+result);
@@ -71,7 +71,7 @@ public class NewGoodFragment extends Fragment {
         }
     }
 
-    public void findBoutiqueList(OkHttpUtils2.OnCompleteListener<NewGoodBean[]> listener)
+    public void findNewGoodList(OkHttpUtils2.OnCompleteListener<NewGoodBean[]> listener)
             throws Exception {
         OkHttpUtils2<NewGoodBean[]> utils = new OkHttpUtils2<NewGoodBean[]>();
         utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
