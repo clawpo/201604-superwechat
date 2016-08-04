@@ -224,7 +224,7 @@ public interface I {
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
 
-    String SERVER_ROOT                              =       "http://192.168.7.24:8080/FuLiCenterServer/Server";
+    String SERVER_ROOT                              =       "http://192.168.7.2:8080/FuLiCenterServer/Server";
 
 
 	public enum ActionType {
@@ -478,7 +478,7 @@ public interface I {
     /** 下载分类商品大类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE="download_category_group_image";
     /** 下载分类商品大类图像的接口*/
-    String DOWNLOAD_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL= I.SERVER_ROOT+
+    String REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL = I.SERVER_ROOT+
         "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
         +"&"+D.CategoryGroup.IMAGE_URL+"=";
 
@@ -492,7 +492,7 @@ public interface I {
     /** 下载分类商品小类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_image";
     /** 下载分类商品小类图像的接口*/
-    String DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL= I.SERVER_ROOT+
+    String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL = I.SERVER_ROOT+
         "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
         +"&"+D.CategoryChild.IMAGE_URL+"=";
     
