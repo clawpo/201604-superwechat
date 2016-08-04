@@ -80,6 +80,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             holder.ivGroupThumb = (ImageView) convertView.findViewById(R.id.iv_group_thumb);
             holder.tvGroupName = (TextView) convertView.findViewById(R.id.tv_group_name);
             holder.ivIndicator = (ImageView) convertView.findViewById(R.id.iv_indicator);
+            convertView.setTag(holder);
         }else{
             holder = (GroupViewHolder) convertView.getTag();
         }
@@ -91,7 +92,6 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         }else{
             holder.ivIndicator.setImageResource(R.drawable.expand_on);
         }
-        convertView.setTag(holder);
         return convertView;
     }
 
@@ -104,6 +104,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_category_child);
             holder.ivCategoryChildThumb = (ImageView) convertView.findViewById(R.id.iv_category_child_thumb);
             holder.tvCategoryChildName = (TextView) convertView.findViewById(R.id.tv_category_child_name);
+            convertView.setTag(holder);
         }else{
             holder = (ChildViewHolder) convertView.getTag();
         }
