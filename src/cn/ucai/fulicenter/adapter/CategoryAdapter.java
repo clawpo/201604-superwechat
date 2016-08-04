@@ -16,9 +16,6 @@ import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
 
-/**
- * Created by clawpo on 16/8/4.
- */
 public class CategoryAdapter extends BaseExpandableListAdapter {
 
     Context mContext;
@@ -30,9 +27,9 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
                            List<ArrayList<CategoryChildBean>> mChildList) {
         this.mContext = mContext;
         this.mGroupList = new ArrayList<CategoryGroupBean>();
-        mGroupList.addAll(mGroupList);
+        this.mGroupList.addAll(mGroupList);
         this.mChildList = new ArrayList<ArrayList<CategoryChildBean>>();
-        mChildList.addAll(mChildList);
+        this.mChildList.addAll(mChildList);
     }
 
     @Override
@@ -76,34 +73,44 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupViewHolder holder = null;
+        GroupViewHolder holder;
         if(convertView == null){
             convertView=View.inflate(mContext, R.layout.item_category_group, null);
             holder = new GroupViewHolder();
-            CategoryGroupBean group = getGroup(groupPosition);
-            ImageUtils.setGroupCategoryImage(mContext,holder.ivGroupThumb,group.getImageUrl());
-            holder.tvGroupName.setText(group.getName());
-            holder.ivIndicator.setImageResource(R.drawable.expand_off);
-            convertView.setTag(holder);
+            holder.ivGroupThumb = (ImageView) convertView.findViewById(R.id.iv_group_thumb);
+            holder.tvGroupName = (TextView) convertView.findViewById(R.id.tv_group_name);
+            holder.ivIndicator = (ImageView) convertView.findViewById(R.id.iv_indicator);
         }else{
             holder = (GroupViewHolder) convertView.getTag();
         }
+        CategoryGroupBean group = getGroup(groupPosition);
+        ImageUtils.setGroupCategoryImage(mContext,holder.ivGroupThumb,group.getImageUrl());
+        holder.tvGroupName.setText(group.getName());
+        if(isExpanded) {
+            holder.ivIndicator.setImageResource(R.drawable.expand_off);
+        }else{
+            holder.ivIndicator.setImageResource(R.drawable.expand_on);
+        }
+        convertView.setTag(holder);
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildViewHolder holder = null;
+        ChildViewHolder holder;
         if(convertView == null){
             convertView = View.inflate(mContext,R.layout.item_cateogry_child,null);
             holder = new ChildViewHolder();
-            CategoryChildBean child = getChild(groupPosition, childPosition);
-            if(child!=null){
-                ImageUtils.setChildCategoryImage(mContext,holder.ivCategoryChildThumb,child.getImageUrl());
-                holder.tvCategoryChildName.setText(child.getName());
-            }
+            holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_category_child);
+            holder.ivCategoryChildThumb = (ImageView) convertView.findViewById(R.id.iv_category_child_thumb);
+            holder.tvCategoryChildName = (TextView) convertView.findViewById(R.id.tv_category_child_name);
         }else{
             holder = (ChildViewHolder) convertView.getTag();
+        }
+        CategoryChildBean child = getChild(groupPosition, childPosition);
+        if(child!=null){
+            ImageUtils.setChildCategoryImage(mContext,holder.ivCategoryChildThumb,child.getImageUrl());
+            holder.tvCategoryChildName.setText(child.getName());
         }
         return convertView;
     }
