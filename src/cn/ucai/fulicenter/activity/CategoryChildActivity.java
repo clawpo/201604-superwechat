@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -88,7 +89,6 @@ public class CategoryChildActivity extends BaseActivity {
                 int a = RecyclerView.SCROLL_STATE_DRAGGING;//1
                 int b = RecyclerView.SCROLL_STATE_IDLE;//0
                 int c = RecyclerView.SCROLL_STATE_SETTLING;//2
-                Log.e(TAG,"newState="+newState);
                 if(newState==RecyclerView.SCROLL_STATE_IDLE
                         && lastItemPosition==mAdapter.getItemCount()-1){
                     if(mAdapter.isMore()) {
@@ -104,7 +104,6 @@ public class CategoryChildActivity extends BaseActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 int f = mGridLayoutManager.findFirstVisibleItemPosition();
                 int l = mGridLayoutManager.findLastVisibleItemPosition();
-                Log.e(TAG,"f="+f+",l="+l);
                 lastItemPosition = mGridLayoutManager.findLastVisibleItemPosition();
                 mSwipeRefreshLayout.setEnabled(mGridLayoutManager.findFirstVisibleItemPosition()==0);
                 if(f==-1 || l ==-1){
@@ -126,7 +125,6 @@ public class CategoryChildActivity extends BaseActivity {
                     tvHint.setVisibility(View.GONE);
                     mAdapter.setMore(true);
                     mAdapter.setFooterString(getResources().getString(R.string.load_more));
-                    Log.e(TAG,"result="+result);
                     if(result!=null){
                         Log.e(TAG,"result.length="+result.length);
                         ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(result);
@@ -187,28 +185,39 @@ public class CategoryChildActivity extends BaseActivity {
         mAdapter = new GoodAdapter(mContext,mGoodList);
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) findViewById(R.id.tv_refresh_hint);
+        btnSortAddTime = (Button) findViewById(R.id.btn_sort_addtime);
+        btnSortPrice = (Button) findViewById(R.id.btn_sort_price);
     }
 
     class SortStatusChangedListener implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {
+            Drawable right;
             switch (v.getId()){
                 case R.id.btn_sort_price:
                     if(mSortPriceAsc){
                         sortBy = I.SORT_BY_PRICE_ASC;
+                        right = getResources().getDrawable(R.drawable.arrow_order_up);
                     }else{
                         sortBy = I.SORT_BY_PRICE_DESC;
+                        right = getResources().getDrawable(R.drawable.arrow_order_down);
                     }
                     mSortPriceAsc = !mSortPriceAsc;
+                    right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
+                    btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(null,null,right,null);
                     break;
                 case R.id.btn_sort_addtime:
                     if(mSortAddTimeAsc){
                         sortBy = I.SORT_BY_ADDTIME_ASC;
+                        right = getResources().getDrawable(R.drawable.arrow_order_up);
                     }else{
                         sortBy = I.SORT_BY_ADDTIME_DESC;
+                        right = getResources().getDrawable(R.drawable.arrow_order_down);
                     }
                     mSortAddTimeAsc = !mSortAddTimeAsc;
+                    right.setBounds(0,0,right.getIntrinsicWidth(),right.getIntrinsicHeight());
+                    btnSortAddTime.setCompoundDrawablesWithIntrinsicBounds(null,null,right,null);
                     break;
             }
             mAdapter.setSortBy(sortBy);

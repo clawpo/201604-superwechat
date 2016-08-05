@@ -82,7 +82,6 @@ public class BoutiqueFragment extends Fragment {
                 int a = RecyclerView.SCROLL_STATE_DRAGGING;//1
                 int b = RecyclerView.SCROLL_STATE_IDLE;//0
                 int c = RecyclerView.SCROLL_STATE_SETTLING;//2
-                Log.e(TAG,"newState="+newState);
                 if(newState==RecyclerView.SCROLL_STATE_IDLE
                         && lastItemPosition==mAdapter.getItemCount()-1){
                     if(mAdapter.isMore()) {
@@ -98,7 +97,6 @@ public class BoutiqueFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 int f = mLinearLayoutManager.findFirstVisibleItemPosition();
                 int l = mLinearLayoutManager.findLastVisibleItemPosition();
-                Log.e(TAG,"f="+f+",l="+l);
                 lastItemPosition = mLinearLayoutManager.findLastVisibleItemPosition();
                 mSwipeRefreshLayout.setEnabled(mLinearLayoutManager.findFirstVisibleItemPosition()==0);
                 if(f==-1 || l ==-1){
@@ -117,7 +115,6 @@ public class BoutiqueFragment extends Fragment {
                     tvHint.setVisibility(View.GONE);
                     mAdapter.setMore(true);
                     mAdapter.setFooterString(getResources().getString(R.string.load_more));
-                    Log.e(TAG,"result="+result);
                     if(result!=null){
                         Log.e(TAG,"result.length="+result.length);
                         ArrayList<BoutiqueBean> boutiqueList = Utils.array2List(result);
