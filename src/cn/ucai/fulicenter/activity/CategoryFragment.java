@@ -49,7 +49,6 @@ public class CategoryFragment extends Fragment {
         findCategoryGroupList(new OkHttpUtils2.OnCompleteListener<CategoryGroupBean[]>() {
             @Override
             public void onSuccess(CategoryGroupBean[] result) {
-                Log.e(TAG,"result="+result);
                 if(result!=null){
                     ArrayList<CategoryGroupBean> groupList = Utils.array2List(result);
                     if(groupList!=null){
@@ -83,7 +82,6 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onSuccess(CategoryChildBean[] result) {
                         groupCount++;
-                        Log.e(TAG,"result="+result);
                         if(result!=null){
                             ArrayList<CategoryChildBean> childList = Utils.array2List(result);
                             if(childList!=null){

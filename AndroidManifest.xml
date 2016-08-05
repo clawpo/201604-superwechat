@@ -83,6 +83,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+        <!-- category child -->
+        <activity
+            android:name="cn.ucai.fulicenter.activity.CategoryChildActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
         <!-- 登陆 -->
         <activity
             android:name="cn.ucai.fulicenter.activity.LoginActivity"
