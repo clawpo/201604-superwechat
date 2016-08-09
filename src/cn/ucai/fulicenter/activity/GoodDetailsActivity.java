@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +25,7 @@ import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
+import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -50,6 +54,7 @@ public class GoodDetailsActivity extends BaseActivity {
     GoodDetailsBean mGoodDetail;
 
     boolean isCollect;
+    updateCartNumReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -65,6 +70,7 @@ public class GoodDetailsActivity extends BaseActivity {
         MyOnClickListener listener = new MyOnClickListener();
         ivCollect.setOnClickListener(listener);
         ivShare.setOnClickListener(listener);
+        setUpdateCartCountListener();
     }
 
     private void initData() {
@@ -153,6 +159,18 @@ public class GoodDetailsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         initCollecStatus();
+        updateCartNum();
+    }
+
+    private void updateCartNum() {
+        int count = Utils.sumCartCount();
+        if(!DemoHXSDKHelper.getInstance().isLogined() || count ==0){
+            tvCartCount.setText(String.valueOf(0));
+            tvCartCount.setVisibility(View.GONE);
+        }else{
+            tvCartCount.setText(String.valueOf(count));
+            tvCartCount.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initCollecStatus() {
@@ -301,5 +319,27 @@ public class GoodDetailsActivity extends BaseActivity {
 
         // 启动分享GUI
         oks.show(this);
+    }
+
+    class updateCartNumReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateCartNum();
+        }
+    }
+
+    private void setUpdateCartCountListener(){
+        mReceiver = new updateCartNumReceiver();
+        IntentFilter filter = new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver,filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mReceiver!=null){
+            unregisterReceiver(mReceiver);
+        }
     }
 }
