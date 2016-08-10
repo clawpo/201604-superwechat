@@ -164,6 +164,7 @@ public class GoodDetailsActivity extends BaseActivity {
 
     private void updateCartNum() {
         int count = Utils.sumCartCount();
+        Log.e(TAG,"count="+count);
         if(!DemoHXSDKHelper.getInstance().isLogined() || count ==0){
             tvCartCount.setText(String.valueOf(0));
             tvCartCount.setVisibility(View.GONE);

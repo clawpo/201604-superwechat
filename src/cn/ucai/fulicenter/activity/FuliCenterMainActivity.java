@@ -166,6 +166,7 @@ public class FuliCenterMainActivity extends BaseActivity {
         }
         setFragment();
         setRadioButtonStatus(currentIndex);
+        updateCartNum();
     }
 
     class updateCartNumReceiver extends BroadcastReceiver{
@@ -184,6 +185,7 @@ public class FuliCenterMainActivity extends BaseActivity {
 
     private void updateCartNum() {
         int count = Utils.sumCartCount();
+        Log.e(TAG,"count="+count);
         if(!DemoHXSDKHelper.getInstance().isLogined() || count ==0){
             tvCartHint.setText(String.valueOf(0));
             tvCartHint.setVisibility(View.GONE);
