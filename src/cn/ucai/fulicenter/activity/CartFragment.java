@@ -117,8 +117,11 @@ public class CartFragment extends Fragment {
 
     private void initData() {
         List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+        Log.e(TAG,"initData cartList.size()="+cartList.size());
+        Log.e(TAG,"initData mCartList.size()="+mCartList.size());
         mCartList.clear();
         mCartList.addAll(cartList);
+        Log.e(TAG,"mCartList.size()="+mCartList.size());
         mSwipeRefreshLayout.setRefreshing(false);
         tvHint.setVisibility(View.GONE);
         mAdapter.setMore(true);
