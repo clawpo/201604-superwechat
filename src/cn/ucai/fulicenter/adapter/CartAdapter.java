@@ -13,11 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.utils.ImageUtils;
-import cn.ucai.fulicenter.view.FooterViewHolder;
 
 /**
  * Created by clawpo on 16/8/1.
@@ -26,9 +24,7 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context mContext;
     List<CartBean> mCartList;
     CartViewHolder mCartViewHolder;
-    FooterViewHolder mFooterViewHolder;
     boolean isMore;
-    String footerString;
     public CartAdapter(Context context, List<CartBean> list) {
         mContext = context;
         mCartList = new ArrayList<CartBean>();
@@ -43,23 +39,10 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
         isMore = more;
     }
 
-    public void setFooterString(String footerString) {
-        this.footerString = footerString;
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflate  = LayoutInflater.from(mContext);
-        ViewHolder holder = null;
-        switch (viewType){
-            case I.TYPE_FOOTER:
-                holder = new FooterViewHolder(inflate.inflate(R.layout.item_footer,parent,false));
-                break;
-            case I.TYPE_ITEM:
-                holder = new CartViewHolder(inflate.inflate(R.layout.item_cart,parent,false));
-                break;
-        }
+        ViewHolder holder = new CartViewHolder(inflate.inflate(R.layout.item_cart,parent,false));
         return holder;
     }
 
@@ -74,28 +57,14 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
             mCartViewHolder.tvCartCount.setText("("+cart.getCount()+")");
             mCartViewHolder.tvCartPrice.setText(cart.getGoods().getCurrencyPrice());
         }
-        if(holder instanceof FooterViewHolder){
-            mFooterViewHolder = (FooterViewHolder) holder;
-            mFooterViewHolder.tvFooter.setText(footerString);
-        }
-
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if(position==getItemCount()-1){
-            return I.TYPE_FOOTER;
-        }else{
-            return I.TYPE_ITEM;
-        }
     }
 
     @Override
     public int getItemCount() {
-        return mCartList !=null? mCartList.size()+1:1;
+        return mCartList !=null? mCartList.size():0;
     }
 
-    public void initItem(ArrayList<CartBean> list) {
+    public void initItem(List<CartBean> list) {
         if(mCartList !=null){
             mCartList.clear();
         }
@@ -103,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void addItem(ArrayList<CartBean> list) {
+    public void addItem(List<CartBean> list) {
         mCartList.addAll(list);
         notifyDataSetChanged();
     }
