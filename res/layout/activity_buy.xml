@@ -17,6 +17,9 @@
         android:layout_marginTop="5dp"
         android:background="#fff" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_order_name"
             android:layout_width="wrap_content"
@@ -36,6 +39,7 @@
             android:paddingLeft="10dip"
             android:singleLine="true"
             android:textSize="18sp" />
+        </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_order_phone"
@@ -45,6 +49,9 @@
         android:layout_marginTop="5dp"
         android:background="#fff" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_order_phone"
             android:layout_width="wrap_content"
@@ -64,6 +71,7 @@
             android:paddingLeft="10dip"
             android:singleLine="true"
             android:textSize="18sp" />
+        </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_order_province"
@@ -73,6 +81,9 @@
         android:layout_marginTop="5dp"
         android:background="#fff" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_order_province"
             android:layout_width="wrap_content"
@@ -84,11 +95,12 @@
 
         <Spinner
             android:id="@+id/spin_order_province"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:entries="@array/area">
 
         </Spinner>
+        </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_order_street"
@@ -97,7 +109,9 @@
         android:layout_height="54dp"
         android:layout_marginTop="5dp"
         android:background="#fff" >
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_order_street"
             android:layout_width="wrap_content"
@@ -117,6 +131,7 @@
             android:paddingLeft="10dip"
             android:singleLine="true"
             android:textSize="18sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <Button
