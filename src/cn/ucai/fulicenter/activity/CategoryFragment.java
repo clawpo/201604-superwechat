@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.CategoryAdapter;
@@ -111,5 +114,13 @@ public class CategoryFragment extends Fragment {
         mExpandableListView = (ExpandableListView) layout.findViewById(R.id.elvCategory);
         mExpandableListView.setGroupIndicator(null);
         mExpandableListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkHttpUtils2.release();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

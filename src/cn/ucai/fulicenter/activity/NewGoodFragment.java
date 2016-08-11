@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodAdapter;
@@ -176,4 +179,11 @@ public class NewGoodFragment extends Fragment {
         tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkHttpUtils2.release();
+        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 }
