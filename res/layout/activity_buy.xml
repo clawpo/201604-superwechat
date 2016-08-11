@@ -69,6 +69,7 @@
             android:layout_toRightOf="@id/tv_order_phone"
             android:background="@null"
             android:paddingLeft="10dip"
+            android:inputType="phone"
             android:singleLine="true"
             android:textSize="18sp" />
         </LinearLayout>
@@ -135,6 +136,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
