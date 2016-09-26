@@ -394,13 +394,6 @@ public interface I {
         "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
         +"&"+D.CategoryGroup.IMAGE_URL+"=";
 
-    /** 下载收藏商品图像的请求*/
-    String REQUEST_DOWNLOAD_GOODS_THUMB="download_goods_thumb";
-    /** 下载收藏商品图像的接口*/
-    String DOWNLOAD_GOODS_THUMB_URL= I.SERVER_ROOT+
-        "?request="+REQUEST_DOWNLOAD_GOODS_THUMB
-        +"&"+Collect.GOODS_THUMB+"=";
-    
     /** 下载分类商品小类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_image";
     /** 下载分类商品小类图像的接口*/
