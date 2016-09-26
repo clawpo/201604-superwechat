@@ -18,9 +18,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
-import com.umeng.analytics.MobclickAgent;
-
 public class BaseActivity extends FragmentActivity {
 
     @Override
@@ -31,18 +28,11 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // onresume时，取消notification显示
-        HXSDKHelper.getInstance().getNotifier().reset();
-        
-        // umeng
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // umeng
-        MobclickAgent.onPause(this);
     }
 
 
