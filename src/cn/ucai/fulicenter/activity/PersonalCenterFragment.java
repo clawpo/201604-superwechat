@@ -18,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +25,6 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.UserAvatar;
-import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.UserUtils;
 
 /**
@@ -145,9 +142,6 @@ public class PersonalCenterFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        OkHttpUtils2.release();
         mContext.unregisterReceiver(mReceiver);
-        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
     }
 }

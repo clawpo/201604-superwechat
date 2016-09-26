@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
@@ -173,13 +170,5 @@ public class BoutiqueFragment extends Fragment {
         mAdapter = new BoutiqueAdapter(mContext,mBoutiqueList);
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        OkHttpUtils2.release();
-        RefWatcher refWatcher = FuliCenterApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
     }
 }

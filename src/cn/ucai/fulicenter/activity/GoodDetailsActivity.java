@@ -374,7 +374,6 @@ public class GoodDetailsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OkHttpUtils2.release();
         if(mReceiver!=null){
             unregisterReceiver(mReceiver);
         }
