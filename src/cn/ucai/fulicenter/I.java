@@ -40,36 +40,7 @@ public interface I {
     //货币单位
     public static final String CURRENCY_TYPE_CNY = "CNY";
     public static final String CURRENCY_TYPE_USD = "USD";
-    
-    class Cart{
-        public static final String ID="id";
-        public static final String GOODS_ID="goods_id";
-        public static final String GOODS_THUMB="goodsThumb";
-        public static final String USER_NAME="userName";
-        /**购物车中该商品的件数*/
-        public static final String COUNT="count";
-        /**商品是否已被选中*/
-        public static final String IS_CHECKED="isChecked";
-    }
 
-    
-    class Collect{
-        /** 商品id*/
-        public static final String ID="id";
-        
-        public static final String GOODS_ID="goods_id";
-        
-        public static final String USER_NAME="userName";
-        
-        /** 商品的中文名称*/
-        public static final String GOODS_NAME="goodsName";
-        /** 商品的英文名称*/
-        public static final String GOODS_ENGLISH_NAME="goodsEnglishName";
-        public static final String GOODS_THUMB="goodsThumb";
-        public static final String GOODS_IMG="goodsImg";
-        public static final String ADD_TIME="addTime";
-    }
-    
     class Boutique{
         public static final String TABLE_NAME="tb_boutique";
         public static final String ID="id";
@@ -164,65 +135,6 @@ public interface I {
         public static final String COLOR_CODE="colorcode";
         public static final String COLOR_IMG="colorimg";
     }
-	interface User {
-		String TABLE_NAME							=		"t_superwechat_user";
-		String USER_ID 								= 		"m_user_id";					//主键
-		String USER_NAME 							= 		"m_user_name";					//用户账号
-		String PASSWORD 							= 		"m_user_password";				//用户密码
-		String NICK 								= 		"m_user_nick";					//用户昵称
-		String UN_READ_MSG_COUNT 					= 		"m_user_unread_msg_count";		//未读消息数量
-	}
-	
-	interface Contact {
-		String TABLE_NAME 							= 		"t_superwechat_contact";
-		String CONTACT_ID 							= 		"m_contact_id";					//主键
-		String USER_ID 								= 		"m_contact_user_id";			//用户id
-		String USER_NAME 							= 		"m_contact_user_name";			//用户账号
-		String CU_ID 								= 		"m_contact_cid";				//好友id
-		String CU_NAME 								= 		"m_contact_cname";				//好友账号
-	}
-	
-	interface Group {
-		String TABLE_NAME 							= 		"t_superwechat_group";
-		String GROUP_ID 							= 		"m_group_id";					// 主键
-		String HX_ID 								= 		"m_group_hxid";					//环信群组id
-		String NAME 								= 		"m_group_name";					//群组名称
-		String DESCRIPTION 							= 		"m_group_description";			//群组简介
-		String OWNER 								= 		"m_group_owner";				//群组所有者－用户账号
-		String MODIFIED_TIME 						= 		"m_group_last_modified_time";	//最后修改时间
-		String MAX_USERS 							= 		"m_group_max_users";			//最大人数
-		String AFFILIATIONS_COUNT 					= 		"m_group_affiliations_count";	//群组人数
-		String IS_PUBLIC 							= 		"m_group_is_public";			//群组是否公开
-		String ALLOW_INVITES 						= 		"m_group_allow_invites";		//是否可以邀请
-	}
-	
-	interface Member {
-		String TABLE_NAME 							= 		"t_superwechat_member";
-		String MEMBER_ID 							= 		"m_member_id";					//主键
-		String USER_NAME 							= 		"m_member_user_name";			//用户账号
-		String GROUP_ID 							= 		"m_member_group_id";			//群组id
-		String GROUP_HX_ID 							= 		"m_member_group_hxid";			//群组环信id
-		String PERMISSION 							= 		"m_member_permission";			//用户对群组的权限\n0:普通用户\n1:群组所有者
-	}
-	
-	interface Avatar {
-		String TABLE_NAME 							= 		"t_superwechat_avatar";
-		String AVATAR_ID 							= 		"m_avatar_id";					//主键
-		String USER_ID 								= 		"m_avatar_user_id";				//用户id或者群组id
-		String USER_NAME 							= 		"m_avatar_user_name";			//用户账号或者群组账号
-		String AVATAR_PATH 							= 		"m_avatar_path";				//保存路径
-		String AVATAR_TYPE 							= 		"m_avatar_type";				//头像类型：\n0:用户头像\n1:群组头像
-	}
-	
-	interface Location {
-		String TABLE_NAME 							= 		"t_superwechat_location";
-		String LOCATION_ID 							= 		"m_location_id";				//主键
-		String USER_NAME 							= 		"m_location_user_name";			//用户账号
-		String LATITUDE 							= 		"m_location_latitude";			//纬度
-		String LONGITUDE 							= 		"m_location_longitude";			//经度
-		String IS_SEARCHED 							= 		"m_location_is_searched";		//是否可以被搜索到
-		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
-	}
 
     String SERVER_ROOT                              =       "http://101.251.196.90:8000/FuLiCenterServer/Server";
 
