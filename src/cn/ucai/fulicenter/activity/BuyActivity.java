@@ -1,8 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -18,23 +16,12 @@ public class BuyActivity extends BaseActivity {
     EditText edOrderPhone;
     Spinner spinProvince;
     EditText edOrderStreet;
-    Button btnBuy;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         mContext = this;
         setContentView(R.layout.activity_buy);
         initView();
-        setListener();
-    }
-
-    private void setListener() {
-        btnBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     private void initView() {
@@ -43,6 +30,5 @@ public class BuyActivity extends BaseActivity {
         edOrderPhone = (EditText) findViewById(R.id.ed_order_phone);
         spinProvince = (Spinner) findViewById(R.id.spin_order_province);
         edOrderStreet = (EditText) findViewById(R.id.ed_order_street);
-        btnBuy = (Button) findViewById(R.id.btn_buy);
     }
 }
