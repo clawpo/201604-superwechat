@@ -10,41 +10,6 @@
         android:layout_height="35dp"
         android:background="@color/main_orange">
         <include layout="@layout/common_head_title"/>
-        <ImageView
-            android:id="@+id/iv_good_share"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:src="@drawable/selector_share_bg"/>
-        <ImageView
-            android:id="@+id/iv_good_collect"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/iv_good_share"
-            android:padding="5dp"
-            android:src="@drawable/bg_collect_in"/>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/iv_good_collect">
-
-            <ImageView
-                android:id="@+id/iv_good_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:padding="5dp"
-                android:src="@drawable/bg_cart_selected"/>
-            <TextView
-                android:id="@+id/tv_cart_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:textColor="#f00"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"/>
-        </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_banner"
