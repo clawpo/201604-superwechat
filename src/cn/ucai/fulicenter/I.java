@@ -224,7 +224,7 @@ public interface I {
 		String UPDATE_TIME 							= 		"m_location_last_update_time";	//最后更新时间
 	}
 
-    String SERVER_ROOT                              =       "http://192.168.7.35:8080/FuLiCenterServer/Server";
+    String SERVER_ROOT                              =       "http://101.251.196.90:8000/FuLiCenterServer/Server";
 
 
 	public enum ActionType {
