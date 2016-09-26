@@ -5,26 +5,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
-
-import cn.ucai.fulicenter.DemoHXSDKHelper;
-import cn.ucai.fulicenter.FuliCenterApplication;
-import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.bean.Result;
-import cn.ucai.fulicenter.bean.UserAvatar;
-import cn.ucai.fulicenter.data.OkHttpUtils2;
-import cn.ucai.fulicenter.db.UserDao;
-import cn.ucai.fulicenter.task.DownloadCartListTask;
-import cn.ucai.fulicenter.task.DownloadCollectCountTask;
-import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.utils.Utils;
 
 /**
  * 开屏页
@@ -57,52 +42,7 @@ public class SplashActivity extends BaseActivity {
 
 		new Thread(new Runnable() {
 			public void run() {
-				if (DemoHXSDKHelper.getInstance().isLogined()) {
-					// ** 免登陆情况 加载所有本地群和会话
-					//不是必须的，不加sdk也会自动异步去加载(不会重复加载)；
-					//加上的话保证进了主页面会话和群组都已经load完毕
 					long start = System.currentTimeMillis();
-					EMGroupManager.getInstance().loadAllGroups();
-					EMChatManager.getInstance().loadAllConversations();
-
-                    String username = FuliCenterApplication.getInstance().getUserName();
-                    Log.e(TAG,"username="+username);
-                    UserDao dao = new UserDao(SplashActivity.this);
-                    UserAvatar user = dao.getUserAvatar(username);
-                    Log.e(TAG,"user="+user);
-					if(user==null){
-                        final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
-                        utils.setRequestUrl(I.REQUEST_FIND_USER)
-                                .addParam(I.User.USER_NAME,username)
-                                .targetClass(String.class)
-                                .execute(new OkHttpUtils2.OnCompleteListener<String>() {
-                                    @Override
-                                    public void onSuccess(String s) {
-                                        Log.e(TAG,"s="+s);
-                                        Result result = Utils.getResultFromJson(s,UserAvatar.class);
-                                        Log.e(TAG,"result="+result);
-                                        if(result!=null && result.isRetMsg()){
-                                            UserAvatar user= (UserAvatar) result.getRetData();
-                                            Log.e(TAG,"user="+user);
-                                            if(user!=null) {
-                                                FuliCenterApplication.getInstance().setUser(user);
-                                                FuliCenterApplication.currentUserNick = user.getMUserNick();
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(String error) {
-                                        Log.e(TAG,"error="+error);
-                                    }
-                                });
-                    } else {
-                        FuliCenterApplication.getInstance().setUser(user);
-                        FuliCenterApplication.currentUserNick = user.getMUserNick();
-                    }
-                    new DownloadContactListTask(SplashActivity.this, username).execute();
-					new DownloadCollectCountTask(SplashActivity.this, username).execute();
-					new DownloadCartListTask(SplashActivity.this, username).execute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {
@@ -115,17 +55,8 @@ public class SplashActivity extends BaseActivity {
 					//进入主页面
 					startActivity(new Intent(SplashActivity.this, FuliCenterMainActivity.class));
 					finish();
-				}else {
-					try {
-						Thread.sleep(sleepTime);
-					} catch (InterruptedException e) {
-					}
-					startActivity(new Intent(SplashActivity.this, FuliCenterMainActivity.class));
-					finish();
-				}
 			}
 		}).start();
-
 	}
 	
 	/**
